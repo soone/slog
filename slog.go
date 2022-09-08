@@ -1,6 +1,7 @@
 package slog
 
 import (
+	"fmt"
 	"io"
 	"os"
 	"time"
@@ -11,12 +12,13 @@ import (
 
 const ProduceMode = "produce"
 
+var mode = os.Getenv("MODE")
+
 var rotateWriter *rotatelogs.RotateLogs
 
 func Default(path string) io.Writer {
 	logrus.SetLevel(logrus.InfoLevel)
 
-	mode := os.Getenv("mode")
 	if mode == ProduceMode {
 
 		logrus.SetFormatter(&logrus.JSONFormatter{})
@@ -26,7 +28,7 @@ func Default(path string) io.Writer {
 		}
 
 		var err error
-		rotateWriter, err = rotatelogs.New(path, rotateOptions...)
+		rotateWriter, err = rotatelogs.New(fmt.Sprintf("%s/%%Y-%%m-%%d.log", path), rotateOptions...)
 		if err != nil {
 			panic(err)
 		}
