@@ -5,7 +5,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/gin-gonic/gin"
 	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
 	"github.com/sirupsen/logrus"
 )
@@ -20,7 +19,6 @@ func Default(path string) io.Writer {
 	mode := os.Getenv("mode")
 	if mode == ProduceMode {
 
-		gin.SetMode(gin.ReleaseMode)
 		logrus.SetFormatter(&logrus.JSONFormatter{})
 
 		rotateOptions := []rotatelogs.Option{
